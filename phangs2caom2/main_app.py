@@ -162,8 +162,14 @@ class PHANGSName(mc.StorageName):
     def telescope(self):
         return self._telescope
 
-    def is_derived(self):
-        return 'mom' in self._file_id
+    def is_x(self):
+        return (
+            '_strictmask' in self._file_id or '_broadmask' in self._file_id or
+            '_coverage' in self._file_id
+        )
+
+    def is_error(self):
+        return 'emom' in self._file_id or 'eew' in self._file_id
 
     def is_valid(self):
         return True
@@ -195,9 +201,7 @@ class PHANGSName(mc.StorageName):
             self._product_id = self._file_id
         elif (
             self._file_id.endswith('_noise') or
-            self._file_id.endswith('_strictmask') or
-            self._file_id.endswith('_broadmask') or
-            self._file_id.endswith('_coverage')
+            self.is_x()
         ):
             self._product_id = '_'.join(ii for ii in bits[:end_index])
         elif re.match('.*mom[012]', self._file_id):
@@ -220,7 +224,6 @@ def accumulate_bp(bp, uri):
     logging.debug('Begin accumulate_bp.')
     bp.configure_position_axes((1, 2))
     bp.configure_energy_axis(3)
-    bp.configure_observable_axis(4)
 
     storage_name = PHANGSName(artifact_uri=uri)
 
@@ -270,8 +273,8 @@ def accumulate_bp(bp, uri):
     artifact_product_type = ProductType.SCIENCE
     if 'noise' in uri:
         artifact_product_type = ProductType.NOISE
-    elif 'mask' in uri:
-        artifact_product_type = ProductType.CALIBRATION
+    elif storage_name.is_x() or storage_name.is_error():
+        artifact_product_type = ProductType.AUXILIARY
     bp.set('Artifact.productType', artifact_product_type)
 
     # chunk level
@@ -291,11 +294,18 @@ def accumulate_bp(bp, uri):
     bp.add_fits_attribute('Chunk.energy.transition.transition', 'TRANSITI')
 
     # observable
-    bp.clear('Chunk.observable.dependent.axis.ctype')
-    bp.add_fits_attribute('Chunk.observable.dependent.axis.ctype', 'BTYPE')
-    bp.clear('Chunk.observable.dependent.axis.cunit')
-    bp.add_fits_attribute('Chunk.observable.dependent.axis.cunit', 'BUNIT')
-    bp.set('Chunk.observable.dependent.bin', 1)
+    if (
+        artifact_product_type in [ProductType.SCIENCE, ProductType.NOISE] or
+        storage_name.is_error()  # some auxiliary Artifacts have observables
+    ):
+        bp.configure_observable_axis(4)
+        bp.set(
+            'Chunk.observable.dependent.axis.ctype',
+            '_get_chunk_observable_ctype(header)',
+        )
+        bp.clear('Chunk.observable.dependent.axis.cunit')
+        bp.add_fits_attribute('Chunk.observable.dependent.axis.cunit', 'BUNIT')
+        bp.set('Chunk.observable.dependent.bin', 1)
     logging.debug('Done accumulate_bp.')
 
 
@@ -322,7 +332,6 @@ def update(observation, **kwargs):
                                f'{observation.observation_id}')
 
     _update_from_comment(observation, phangs_name, headers)
-
     logging.debug('Done update.')
     return observation
 
@@ -345,6 +354,23 @@ def _build_blueprints(uris):
             accumulate_bp(blueprint, uri)
         blueprints[uri] = blueprint
     return blueprints
+
+
+def _get_chunk_observable_ctype(header):
+    btype_fix = {
+        'Moment0': 'moment0',
+        'Moment1': 'moment1',
+        'Moment2': 'moment2',
+        'Moment0 Error': 'moment0;error',
+        'Moment1 Error': 'moment1;error',
+        'Moment2 Error': 'moment2;error',
+        'Tpeak': 'T',
+        'VelDisp EW': 'VelDisp',
+        'VelDisp EW Error': 'VelDisp;error',
+    }
+    btype = header.get('BTYPE')
+    corrected = btype_fix.get(btype, btype)
+    return corrected
 
 
 def _get_position_resolution(header):

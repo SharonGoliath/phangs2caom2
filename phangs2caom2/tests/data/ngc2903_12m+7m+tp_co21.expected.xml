@@ -227,7 +227,7 @@
         </caom2:artifact>
         <caom2:artifact caom2:id="b7f6314f-2297-4022-a3e0-9534c42bce68">
           <caom2:uri>ad:PHANGS/ngc2903_12m+7m+tp_co21_broadmask.fits</caom2:uri>
-          <caom2:productType>calibration</caom2:productType>
+          <caom2:productType>auxiliary</caom2:productType>
           <caom2:releaseType>data</caom2:releaseType>
           <caom2:contentType>application/fits</caom2:contentType>
           <caom2:parts>
@@ -239,14 +239,6 @@
                   <caom2:positionAxis1>1</caom2:positionAxis1>
                   <caom2:positionAxis2>2</caom2:positionAxis2>
                   <caom2:energyAxis>3</caom2:energyAxis>
-                  <caom2:observable>
-                    <caom2:dependent>
-                      <caom2:axis>
-                        <caom2:ctype>Mask</caom2:ctype>
-                      </caom2:axis>
-                      <caom2:bin>1</caom2:bin>
-                    </caom2:dependent>
-                  </caom2:observable>
                   <caom2:position>
                     <caom2:axis>
                       <caom2:axis1>
@@ -602,7 +594,7 @@
         </caom2:artifact>
         <caom2:artifact caom2:id="7f431c07-f2a5-429f-9984-3fcfd36425ab">
           <caom2:uri>ad:PHANGS/ngc2903_12m+7m+tp_co21_strictmask.fits</caom2:uri>
-          <caom2:productType>calibration</caom2:productType>
+          <caom2:productType>auxiliary</caom2:productType>
           <caom2:releaseType>data</caom2:releaseType>
           <caom2:contentType>application/fits</caom2:contentType>
           <caom2:parts>
@@ -614,14 +606,6 @@
                   <caom2:positionAxis1>1</caom2:positionAxis1>
                   <caom2:positionAxis2>2</caom2:positionAxis2>
                   <caom2:energyAxis>3</caom2:energyAxis>
-                  <caom2:observable>
-                    <caom2:dependent>
-                      <caom2:axis>
-                        <caom2:ctype>Mask</caom2:ctype>
-                      </caom2:axis>
-                      <caom2:bin>1</caom2:bin>
-                    </caom2:dependent>
-                  </caom2:observable>
                   <caom2:position>
                     <caom2:axis>
                       <caom2:axis1>
@@ -992,7 +976,7 @@
         </caom2:artifact>
         <caom2:artifact caom2:id="bb48235c-894d-4a6c-ba27-dc014dffa7d1">
           <caom2:uri>ad:PHANGS/ngc2903_12m+7m+tp_co21_2as_coverage.fits</caom2:uri>
-          <caom2:productType>science</caom2:productType>
+          <caom2:productType>auxiliary</caom2:productType>
           <caom2:releaseType>data</caom2:releaseType>
           <caom2:contentType>application/fits</caom2:contentType>
           <caom2:parts>
@@ -1004,14 +988,6 @@
                   <caom2:positionAxis1>1</caom2:positionAxis1>
                   <caom2:positionAxis2>2</caom2:positionAxis2>
                   <caom2:energyAxis>3</caom2:energyAxis>
-                  <caom2:observable>
-                    <caom2:dependent>
-                      <caom2:axis>
-                        <caom2:ctype>Coverage</caom2:ctype>
-                      </caom2:axis>
-                      <caom2:bin>1</caom2:bin>
-                    </caom2:dependent>
-                  </caom2:observable>
                   <caom2:position>
                     <caom2:axis>
                       <caom2:axis1>
@@ -1367,7 +1343,7 @@
         </caom2:artifact>
         <caom2:artifact caom2:id="b9e48154-25fa-4c98-8ea4-5387198845d2">
           <caom2:uri>ad:PHANGS/ngc2903_12m+7m+tp_co21_2as_strictmask.fits</caom2:uri>
-          <caom2:productType>calibration</caom2:productType>
+          <caom2:productType>auxiliary</caom2:productType>
           <caom2:releaseType>data</caom2:releaseType>
           <caom2:contentType>application/fits</caom2:contentType>
           <caom2:parts>
@@ -1379,14 +1355,6 @@
                   <caom2:positionAxis1>1</caom2:positionAxis1>
                   <caom2:positionAxis2>2</caom2:positionAxis2>
                   <caom2:energyAxis>3</caom2:energyAxis>
-                  <caom2:observable>
-                    <caom2:dependent>
-                      <caom2:axis>
-                        <caom2:ctype>Mask</caom2:ctype>
-                      </caom2:axis>
-                      <caom2:bin>1</caom2:bin>
-                    </caom2:dependent>
-                  </caom2:observable>
                   <caom2:position>
                     <caom2:axis>
                       <caom2:axis1>
@@ -1569,7 +1537,7 @@
       <caom2:artifacts>
         <caom2:artifact caom2:id="28c7f8de-8a9a-4bc8-a95b-981ec05750ed">
           <caom2:uri>ad:PHANGS/ngc2903_12m+7m+tp_co21_2as_broad_emom0.fits</caom2:uri>
-          <caom2:productType>science</caom2:productType>
+          <caom2:productType>auxiliary</caom2:productType>
           <caom2:releaseType>data</caom2:releaseType>
           <caom2:contentType>application/fits</caom2:contentType>
           <caom2:parts>
@@ -1583,7 +1551,7 @@
                   <caom2:observable>
                     <caom2:dependent>
                       <caom2:axis>
-                        <caom2:ctype>Moment0 Error</caom2:ctype>
+                        <caom2:ctype>moment0;error</caom2:ctype>
                         <caom2:cunit>K km s-1</caom2:cunit>
                       </caom2:axis>
                       <caom2:bin>1</caom2:bin>
@@ -1748,7 +1716,7 @@
                   <caom2:observable>
                     <caom2:dependent>
                       <caom2:axis>
-                        <caom2:ctype>Moment0</caom2:ctype>
+                        <caom2:ctype>moment0</caom2:ctype>
                         <caom2:cunit>K km s-1</caom2:cunit>
                       </caom2:axis>
                       <caom2:bin>1</caom2:bin>
@@ -1914,7 +1882,7 @@
       <caom2:artifacts>
         <caom2:artifact caom2:id="05306532-a063-403c-8d4b-a346d7b2fd37">
           <caom2:uri>ad:PHANGS/ngc2903_12m+7m+tp_co21_strict_eew.fits</caom2:uri>
-          <caom2:productType>science</caom2:productType>
+          <caom2:productType>auxiliary</caom2:productType>
           <caom2:releaseType>data</caom2:releaseType>
           <caom2:contentType>application/fits</caom2:contentType>
           <caom2:parts>
@@ -1928,7 +1896,7 @@
                   <caom2:observable>
                     <caom2:dependent>
                       <caom2:axis>
-                        <caom2:ctype>VelDisp EW Error</caom2:ctype>
+                        <caom2:ctype>VelDisp;error</caom2:ctype>
                         <caom2:cunit>km s-1</caom2:cunit>
                       </caom2:axis>
                       <caom2:bin>1</caom2:bin>
@@ -2093,7 +2061,7 @@
                   <caom2:observable>
                     <caom2:dependent>
                       <caom2:axis>
-                        <caom2:ctype>VelDisp EW</caom2:ctype>
+                        <caom2:ctype>VelDisp</caom2:ctype>
                         <caom2:cunit>km s-1</caom2:cunit>
                       </caom2:axis>
                       <caom2:bin>1</caom2:bin>
@@ -2259,7 +2227,7 @@
       <caom2:artifacts>
         <caom2:artifact caom2:id="bbdaba44-5507-4f0f-a041-ac3da7927147">
           <caom2:uri>ad:PHANGS/ngc2903_12m+7m+tp_co21_strict_emom0.fits</caom2:uri>
-          <caom2:productType>science</caom2:productType>
+          <caom2:productType>auxiliary</caom2:productType>
           <caom2:releaseType>data</caom2:releaseType>
           <caom2:contentType>application/fits</caom2:contentType>
           <caom2:parts>
@@ -2273,7 +2241,7 @@
                   <caom2:observable>
                     <caom2:dependent>
                       <caom2:axis>
-                        <caom2:ctype>Moment0 Error</caom2:ctype>
+                        <caom2:ctype>moment0;error</caom2:ctype>
                         <caom2:cunit>K km s-1</caom2:cunit>
                       </caom2:axis>
                       <caom2:bin>1</caom2:bin>
@@ -2438,7 +2406,7 @@
                   <caom2:observable>
                     <caom2:dependent>
                       <caom2:axis>
-                        <caom2:ctype>Moment0</caom2:ctype>
+                        <caom2:ctype>moment0</caom2:ctype>
                         <caom2:cunit>K km s-1</caom2:cunit>
                       </caom2:axis>
                       <caom2:bin>1</caom2:bin>
@@ -2618,7 +2586,7 @@
                   <caom2:observable>
                     <caom2:dependent>
                       <caom2:axis>
-                        <caom2:ctype>Tpeak</caom2:ctype>
+                        <caom2:ctype>T</caom2:ctype>
                         <caom2:cunit>K</caom2:cunit>
                       </caom2:axis>
                       <caom2:bin>1</caom2:bin>
@@ -2784,7 +2752,7 @@
       <caom2:artifacts>
         <caom2:artifact caom2:id="fc98a487-9650-4c12-804e-d594fd6e7cb5">
           <caom2:uri>ad:PHANGS/ngc2903_12m+7m+tp_co21_strict_emom1.fits</caom2:uri>
-          <caom2:productType>science</caom2:productType>
+          <caom2:productType>auxiliary</caom2:productType>
           <caom2:releaseType>data</caom2:releaseType>
           <caom2:contentType>application/fits</caom2:contentType>
           <caom2:parts>
@@ -2798,7 +2766,7 @@
                   <caom2:observable>
                     <caom2:dependent>
                       <caom2:axis>
-                        <caom2:ctype>Moment1 Error</caom2:ctype>
+                        <caom2:ctype>moment1;error</caom2:ctype>
                         <caom2:cunit>km s-1</caom2:cunit>
                       </caom2:axis>
                       <caom2:bin>1</caom2:bin>
@@ -2963,7 +2931,7 @@
                   <caom2:observable>
                     <caom2:dependent>
                       <caom2:axis>
-                        <caom2:ctype>Moment1</caom2:ctype>
+                        <caom2:ctype>moment1</caom2:ctype>
                         <caom2:cunit>km s-1</caom2:cunit>
                       </caom2:axis>
                       <caom2:bin>1</caom2:bin>
@@ -3129,7 +3097,7 @@
       <caom2:artifacts>
         <caom2:artifact caom2:id="a816f5ba-a7c7-45ec-a853-5b1b55f8b89c">
           <caom2:uri>ad:PHANGS/ngc2903_12m+7m+tp_co21_strict_emom2.fits</caom2:uri>
-          <caom2:productType>science</caom2:productType>
+          <caom2:productType>auxiliary</caom2:productType>
           <caom2:releaseType>data</caom2:releaseType>
           <caom2:contentType>application/fits</caom2:contentType>
           <caom2:parts>
@@ -3143,7 +3111,7 @@
                   <caom2:observable>
                     <caom2:dependent>
                       <caom2:axis>
-                        <caom2:ctype>Moment2 Error</caom2:ctype>
+                        <caom2:ctype>moment2;error</caom2:ctype>
                         <caom2:cunit>km s-1</caom2:cunit>
                       </caom2:axis>
                       <caom2:bin>1</caom2:bin>
@@ -3308,7 +3276,7 @@
                   <caom2:observable>
                     <caom2:dependent>
                       <caom2:axis>
-                        <caom2:ctype>Moment2</caom2:ctype>
+                        <caom2:ctype>moment2</caom2:ctype>
                         <caom2:cunit>km s-1</caom2:cunit>
                       </caom2:axis>
                       <caom2:bin>1</caom2:bin>
@@ -3474,7 +3442,7 @@
       <caom2:artifacts>
         <caom2:artifact caom2:id="7c0ea69e-82eb-4bed-a656-a26ecba5e6b3">
           <caom2:uri>ad:PHANGS/ngc2903_12m+7m+tp_co21_2as_strict_eew.fits</caom2:uri>
-          <caom2:productType>science</caom2:productType>
+          <caom2:productType>auxiliary</caom2:productType>
           <caom2:releaseType>data</caom2:releaseType>
           <caom2:contentType>application/fits</caom2:contentType>
           <caom2:parts>
@@ -3488,7 +3456,7 @@
                   <caom2:observable>
                     <caom2:dependent>
                       <caom2:axis>
-                        <caom2:ctype>VelDisp EW Error</caom2:ctype>
+                        <caom2:ctype>VelDisp;error</caom2:ctype>
                         <caom2:cunit>km s-1</caom2:cunit>
                       </caom2:axis>
                       <caom2:bin>1</caom2:bin>
@@ -3653,7 +3621,7 @@
                   <caom2:observable>
                     <caom2:dependent>
                       <caom2:axis>
-                        <caom2:ctype>VelDisp EW</caom2:ctype>
+                        <caom2:ctype>VelDisp</caom2:ctype>
                         <caom2:cunit>km s-1</caom2:cunit>
                       </caom2:axis>
                       <caom2:bin>1</caom2:bin>
@@ -3819,7 +3787,7 @@
       <caom2:artifacts>
         <caom2:artifact caom2:id="128dedb0-1a36-45d1-a299-0e89083416ba">
           <caom2:uri>ad:PHANGS/ngc2903_12m+7m+tp_co21_2as_strict_emom0.fits</caom2:uri>
-          <caom2:productType>science</caom2:productType>
+          <caom2:productType>auxiliary</caom2:productType>
           <caom2:releaseType>data</caom2:releaseType>
           <caom2:contentType>application/fits</caom2:contentType>
           <caom2:parts>
@@ -3833,7 +3801,7 @@
                   <caom2:observable>
                     <caom2:dependent>
                       <caom2:axis>
-                        <caom2:ctype>Moment0 Error</caom2:ctype>
+                        <caom2:ctype>moment0;error</caom2:ctype>
                         <caom2:cunit>K km s-1</caom2:cunit>
                       </caom2:axis>
                       <caom2:bin>1</caom2:bin>
@@ -3998,7 +3966,7 @@
                   <caom2:observable>
                     <caom2:dependent>
                       <caom2:axis>
-                        <caom2:ctype>Moment0</caom2:ctype>
+                        <caom2:ctype>moment0</caom2:ctype>
                         <caom2:cunit>K km s-1</caom2:cunit>
                       </caom2:axis>
                       <caom2:bin>1</caom2:bin>
@@ -4164,7 +4132,7 @@
       <caom2:artifacts>
         <caom2:artifact caom2:id="e1537f27-e4f4-40a4-94b6-cf0f95ebf2f6">
           <caom2:uri>ad:PHANGS/ngc2903_12m+7m+tp_co21_2as_strict_emom1.fits</caom2:uri>
-          <caom2:productType>science</caom2:productType>
+          <caom2:productType>auxiliary</caom2:productType>
           <caom2:releaseType>data</caom2:releaseType>
           <caom2:contentType>application/fits</caom2:contentType>
           <caom2:parts>
@@ -4178,7 +4146,7 @@
                   <caom2:observable>
                     <caom2:dependent>
                       <caom2:axis>
-                        <caom2:ctype>Moment1 Error</caom2:ctype>
+                        <caom2:ctype>moment1;error</caom2:ctype>
                         <caom2:cunit>km s-1</caom2:cunit>
                       </caom2:axis>
                       <caom2:bin>1</caom2:bin>
@@ -4343,7 +4311,7 @@
                   <caom2:observable>
                     <caom2:dependent>
                       <caom2:axis>
-                        <caom2:ctype>Moment1</caom2:ctype>
+                        <caom2:ctype>moment1</caom2:ctype>
                         <caom2:cunit>km s-1</caom2:cunit>
                       </caom2:axis>
                       <caom2:bin>1</caom2:bin>
@@ -4509,7 +4477,7 @@
       <caom2:artifacts>
         <caom2:artifact caom2:id="d1068bcc-c53d-4edf-a615-694e81debcb9">
           <caom2:uri>ad:PHANGS/ngc2903_12m+7m+tp_co21_2as_strict_emom2.fits</caom2:uri>
-          <caom2:productType>science</caom2:productType>
+          <caom2:productType>auxiliary</caom2:productType>
           <caom2:releaseType>data</caom2:releaseType>
           <caom2:contentType>application/fits</caom2:contentType>
           <caom2:parts>
@@ -4523,7 +4491,7 @@
                   <caom2:observable>
                     <caom2:dependent>
                       <caom2:axis>
-                        <caom2:ctype>Moment2 Error</caom2:ctype>
+                        <caom2:ctype>moment2;error</caom2:ctype>
                         <caom2:cunit>km s-1</caom2:cunit>
                       </caom2:axis>
                       <caom2:bin>1</caom2:bin>
@@ -4688,7 +4656,7 @@
                   <caom2:observable>
                     <caom2:dependent>
                       <caom2:axis>
-                        <caom2:ctype>Moment2</caom2:ctype>
+                        <caom2:ctype>moment2</caom2:ctype>
                         <caom2:cunit>km s-1</caom2:cunit>
                       </caom2:axis>
                       <caom2:bin>1</caom2:bin>
@@ -4854,7 +4822,7 @@
       <caom2:artifacts>
         <caom2:artifact caom2:id="bac4ba7f-9fa5-4116-9b98-6959c3ea6fa2">
           <caom2:uri>ad:PHANGS/ngc2903_12m+7m+tp_co21_broad_emom0.fits</caom2:uri>
-          <caom2:productType>science</caom2:productType>
+          <caom2:productType>auxiliary</caom2:productType>
           <caom2:releaseType>data</caom2:releaseType>
           <caom2:contentType>application/fits</caom2:contentType>
           <caom2:parts>
@@ -4868,7 +4836,7 @@
                   <caom2:observable>
                     <caom2:dependent>
                       <caom2:axis>
-                        <caom2:ctype>Moment0 Error</caom2:ctype>
+                        <caom2:ctype>moment0;error</caom2:ctype>
                         <caom2:cunit>K km s-1</caom2:cunit>
                       </caom2:axis>
                       <caom2:bin>1</caom2:bin>
@@ -5033,7 +5001,7 @@
                   <caom2:observable>
                     <caom2:dependent>
                       <caom2:axis>
-                        <caom2:ctype>Moment0</caom2:ctype>
+                        <caom2:ctype>moment0</caom2:ctype>
                         <caom2:cunit>K km s-1</caom2:cunit>
                       </caom2:axis>
                       <caom2:bin>1</caom2:bin>
@@ -5213,7 +5181,7 @@
                   <caom2:observable>
                     <caom2:dependent>
                       <caom2:axis>
-                        <caom2:ctype>Tpeak</caom2:ctype>
+                        <caom2:ctype>T</caom2:ctype>
                         <caom2:cunit>K</caom2:cunit>
                       </caom2:axis>
                       <caom2:bin>1</caom2:bin>
