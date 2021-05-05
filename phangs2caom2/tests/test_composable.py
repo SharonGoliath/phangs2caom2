@@ -81,8 +81,8 @@ def test_run_by_state():
 
 @patch('caom2pipe.execute_composable.OrganizeExecutes.do_one')
 def test_run(run_mock):
-    test_obs_id = 'test_obs_id'
-    test_f_id = test_obs_id
+    test_obs_id = 'ngc2903_12m+7m+tp_co21'
+    test_f_id = 'ngc2903_12m+7m+tp_co21_2as'
     test_f_name = f'{test_f_id}.fits'
     getcwd_orig = os.getcwd
     os.getcwd = Mock(return_value=test_main_app.TEST_DATA_DIR)
@@ -96,12 +96,14 @@ def test_run(run_mock):
             test_storage, PHANGSName), type(test_storage)
         assert test_storage.obs_id == test_obs_id, 'wrong obs id'
         assert test_storage.file_name == test_f_name, 'wrong file name'
-        assert test_storage.fname_on_disk == test_f_name, \
-            'wrong fname on disk'
+        assert (
+            test_storage.fname_on_disk == test_f_name
+        ), 'wrong fname on disk'
         assert test_storage.url is None, 'wrong url'
-        assert test_storage.lineage == \
-            f'{test_storage.product_id}/ad:{COLLECTION}/{test_f_name}', \
-            'wrong lineage'
+        assert (
+            test_storage.lineage ==
+            f'{test_storage.product_id}/ad:{COLLECTION}/{test_f_name}'
+        ), 'wrong lineage'
     finally:
         os.getcwd = getcwd_orig
         # clean up the summary report text file

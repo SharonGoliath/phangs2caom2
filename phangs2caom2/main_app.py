@@ -84,20 +84,24 @@ on the telescope. How results get shown is another matter. We should add
 telescope to the list of returned fields, then it can be set to be in the
 default set for PHANGS and hidden for others.
 
+PD - 04-05-21 - Cardinality Guidance found here:
+https://cadc-ccda.atlassian.net/wiki/spaces/C/pages/1133281297/PHANGS
+
 """
 
 import importlib
 import logging
 import os
+import re
 import sys
 import traceback
 
 from math import sqrt
 
 from caom2 import Observation, DataProductType, CalibrationLevel
-from caom2 import CoordBounds1D, RefCoord, CoordAxis1D, Provenance
-from caom2 import CoordRange1D, Axis, TemporalWCS, Proposal, ProductType
+from caom2 import Provenance, Proposal, ProductType
 from caom2utils import ObsBlueprint, get_gen_proc_arg_parser, gen_proc
+from caom2pipe import caom_composable as cc
 from caom2pipe import manage_composable as mc
 
 
@@ -119,25 +123,23 @@ class PHANGSName(mc.StorageName):
     PHANGS_NAME_PATTERN = '*'
 
     def __init__(self, file_name=None, artifact_uri=None, entry=None):
+        self._product_id = None
         if file_name:
             self.fname_in_ad = file_name
             self._file_name = file_name
             self._file_id = mc.StorageName.remove_extensions(file_name)
-            self._assign_bits()
-            super(PHANGSName, self).__init__(
-                self._obs_id, COLLECTION, PHANGSName.PHANGS_NAME_PATTERN,
-                fname_on_disk=file_name, compression='', entry=entry)
         elif artifact_uri:
             scheme, path, file_name = mc.decompose_uri(artifact_uri)
             self._file_name = file_name
             self._file_id = mc.StorageName.remove_extensions(file_name)
-            self._assign_bits()
+        self._assign_bits()
         super(PHANGSName, self).__init__(
             self._obs_id, COLLECTION, PHANGSName.PHANGS_NAME_PATTERN,
             fname_on_disk=file_name, compression='', entry=entry)
 
     def __str__(self):
         return f'obs_id {self._obs_id}, ' \
+               f'product_id {self._product_id}, ' \
                f'file_id {self._file_id}'
 
     @property
@@ -187,8 +189,29 @@ class PHANGSName(mc.StorageName):
             raise mc.CadcException(
                 f'Unexpected telescope value in {self._file_id}')
 
-        # ER - original emails
-        self._product_id = self._file_id
+        # PD - Confluence guidance
+        end_index = len(bits) - 1
+        if len(bits) == 3 or 'tpeak' in self._file_id:
+            self._product_id = self._file_id
+        elif (
+            self._file_id.endswith('_noise') or
+            self._file_id.endswith('_strictmask') or
+            self._file_id.endswith('_broadmask') or
+            self._file_id.endswith('_coverage')
+        ):
+            self._product_id = '_'.join(ii for ii in bits[:end_index])
+        elif re.match('.*mom[012]', self._file_id):
+            self._product_id = \
+                f'{"_".join(ii for ii in bits[:end_index])}_mom' \
+                f'{self._file_id[-1]}'
+        elif re.match('.*ew', self._file_id):
+            self._product_id = '_'.join(ii for ii in bits[:end_index]) + '_ew'
+        elif len(bits) == 4:
+            self._product_id = self._file_id
+        else:
+            raise mc.CadcException(
+                f'Unexpected file name pattern {self._file_id}'
+            )
 
 
 def accumulate_bp(bp, uri):
@@ -226,13 +249,16 @@ def accumulate_bp(bp, uri):
     bp.set('Observation.telescope.geoLocationZ', -2481631.27428014)
 
     data_product_type = DataProductType.CUBE
-    calibration_level = CalibrationLevel.PRODUCT
     if '_strict_' in uri or '_broad_' in uri:
         # ER 05-03-21
         # everything with a "_strict_" or "_broad_" in the filename as an
         # image (these should also have NAXIS=2 in the header). Everything
         # else should be "cube" with NAXIS=3.
         data_product_type = DataProductType.IMAGE
+
+    calibration_level = CalibrationLevel.ANALYSIS_PRODUCT
+    if len(storage_name.product_id.split('_')) == 3:
+        calibration_level = CalibrationLevel.PRODUCT
 
     bp.set('Plane.calibrationLevel', calibration_level)
     bp.set('Plane.dataProductType', data_product_type)
@@ -384,7 +410,7 @@ def _update_from_comment(observation, phangs_name, headers):
             plane.provenance = Provenance(name='PHANGS-ALMA pipeline')
 
         for artifact in plane.artifacts.values():
-            if artifact.uri != phangs_name.file_uri:
+            if artifact.uri != phangs_name.file_uri.replace('.header', ''):
                 continue
             for part in artifact.parts.values():
                 chunk = part.chunks[0]
@@ -393,10 +419,6 @@ def _update_from_comment(observation, phangs_name, headers):
         for entry in headers[0].get('COMMENT'):
             if 'pipeline version ' in entry:
                 plane.provenance.version = entry.split(' version ')[1]
-            elif 'Calibration Level' in entry:
-                level = entry.split()[2]
-                if level == '4':
-                    plane.calibration_level = CalibrationLevel.ANALYSIS_PRODUCT
             elif 'PHANGS-ALMA Public Release' in entry:
                 plane.provenance.project = 'PHANGS-ALMA'
             elif 'in nearby GalaxieS (PHANGS) collaboration' in entry:
@@ -413,17 +435,11 @@ def _update_from_comment(observation, phangs_name, headers):
             elif 'Observed in MJD interval ' in entry:
                 if chunk is not None:
                     bits = entry.split()[4].split(',')
-                    start_ref_coord = RefCoord(
-                        0.5, mc.to_float(bits[0].replace('[', '')))
-                    end_ref_coord = RefCoord(
-                        1.5, mc.to_float(bits[1].replace(']', '')))
-                    sample = CoordRange1D(start_ref_coord, end_ref_coord)
-                    if chunk.time is None:
-                        coord_bounds = CoordBounds1D()
-                        axis = CoordAxis1D(axis=Axis('TIME', 'd'))
-                        chunk.time = TemporalWCS(axis, timesys='UTC')
-                        chunk.time.axis.bounds = coord_bounds
-                    chunk.time.axis.bounds.samples.append(sample)
+                    chunk.time = cc.build_temporal_wcs_append_sample(
+                        chunk.time,
+                        lower=mc.to_float(bits[0].replace('[', '')),
+                        upper=mc.to_float(bits[1].replace(']', '')),
+                    )
 
 
 def to_caom2():
