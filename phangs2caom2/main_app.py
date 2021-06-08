@@ -148,7 +148,7 @@ class PHANGSName(mc.StorageName):
 
     @property
     def file_name(self):
-        return self._file_name
+        return self._file_name.replace('.header', '')
 
     @property
     def product_id(self):
@@ -259,9 +259,9 @@ def accumulate_bp(bp, uri):
         # else should be "cube" with NAXIS=3.
         data_product_type = DataProductType.IMAGE
 
-    calibration_level = CalibrationLevel.ANALYSIS_PRODUCT
+    calibration_level = CalibrationLevel.PRODUCT
     if len(storage_name.product_id.split('_')) == 3:
-        calibration_level = CalibrationLevel.PRODUCT
+        calibration_level = CalibrationLevel.CALIBRATED
 
     bp.set('Plane.calibrationLevel', calibration_level)
     bp.set('Plane.dataProductType', data_product_type)
@@ -332,6 +332,12 @@ def update(observation, **kwargs):
                                f'{observation.observation_id}')
 
     _update_from_comment(observation, phangs_name, headers)
+    for plane in observation.planes.values():
+        if plane.product_id != phangs_name.product_id:
+            continue
+        _update_plane_provenance(
+            plane, observation.observation_id, phangs_name
+        )
     logging.debug('Done update.')
     return observation
 
@@ -466,6 +472,26 @@ def _update_from_comment(observation, phangs_name, headers):
                         lower=mc.to_float(bits[0].replace('[', '')),
                         upper=mc.to_float(bits[1].replace(']', '')),
                     )
+
+
+def _update_plane_provenance(plane, obs_id, phangs_name):
+    logging.debug(f'Begin _update_plane_provenance for {plane.product_id}')
+    if (
+        plane.provenance is not None and
+            plane.calibration_level == CalibrationLevel.PRODUCT
+    ):
+        bits = phangs_name.file_name.split('_')
+        # file id                               prov id
+        #
+        index_length = 4
+        if len(bits) < 6:
+            index_length = 3
+        prov_prod_id = '_'.join(ii for ii in bits[:index_length])
+        obs_member_uri_ignore, plane_uri = cc.make_plane_uri(
+            obs_id, prov_prod_id, COLLECTION
+        )
+        plane.provenance.inputs.add(plane_uri)
+    logging.debug(f'End _update_plane_provenance')
 
 
 def to_caom2():
